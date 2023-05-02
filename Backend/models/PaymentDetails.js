@@ -9,9 +9,9 @@ const PaymentDetailsSchema = new Schema(
     bookingId: String,
     paymentAmount: String,
     paymentType: String,
-    // CardNumber: String,
-    // ExpiryDate : String,
-    // CVV:String
+    cardNumber: String,
+    expiryDate : String,
+    cVV:String
   },
   { timestamps: true }
 );

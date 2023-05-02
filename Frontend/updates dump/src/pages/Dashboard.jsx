@@ -45,9 +45,9 @@ const Dashboard = () => {
   const [bedsCount, setbedsCount] = useState(1);
   const [totalAmount, setTotalAmount] = useState(0);
   const [paymentMode, setPaymentMode] = useState("");
-  const [CardNumber, setCardNumber] = useState("");
-  const [CVV, setCVV] = useState("");
-  const [ExpiryDate, setExpiryDate] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cVV, setCVV] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
   const [customerName, setCustomerName] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerIdentity, setCustomerIdentity] = useState("");
@@ -217,9 +217,9 @@ const Dashboard = () => {
       checkInDate,
       checkOutDate,
       paymentType: paymentMode,
-      CardNumber:CardNumber,
-      CardNumber:CardNumber,
-      CVV:CVV,
+      cardNumber:cardNumber,
+      cVV:CVV,
+      ExpiryDate:expiryDate,
 
       
       paymentAmount: totalAmount,

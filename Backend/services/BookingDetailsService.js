@@ -42,18 +42,18 @@ const InsertBookingDetails = async (payload) => {
       const { roomId, noOfBeds, bookingId } = resData;
 
       // save payment details
-      const { paymentType, paymentAmount} = payload;
+      const { paymentType, paymentAmount,expiryDate,cVV,cardNumber} = payload;
 
       const paymentDetailsModel = new PaymentDetailsModel({
         paymentId: new ObjectID(),
         bookingId,
         paymentType,
         paymentAmount,
-        // ExpiryDate,
-        // CVV,
-        // CardNumber
+        expiryDate,
+        cVV,
+        cardNumber
       });
-
+console.log("payment detais",paymentDetailsModel)
       await paymentDetailsModel.save();
 
       let roomData = await RoomDetailsModel.find({});
@@ -97,7 +97,7 @@ const FetchAllBookingDetails = async (pageNo) => {
       customerDetails = JSON.parse(JSON.stringify(customerDetails));
       const { customerName, customerIdentity, customerAddress } =
         customerDetails;
-      const { paymentAmount, paymentType } = paymentDetails;
+      const { paymentAmount, paymentType,cardNumber,expiryDate,cVV } = paymentDetails;
       returnList.push({
         ...resData[key],
         customerName,
@@ -105,9 +105,9 @@ const FetchAllBookingDetails = async (pageNo) => {
         customerAddress,
         paymentAmount,
         paymentType,
-        // CardNumber,
-        // ExpiryDate,
-        // CVV
+        cardNumber,
+        expiryDate,
+        cVV
       });
     }
   }
@@ -137,75 +137,37 @@ const UpdateBookingDetails = async (bookingId, bookingStatus, checkOutDate) => {
 };
 
 //extend
-const UpdateCheckout = async (payload) => {
+const UpdateCheckout = async (payload,bookingId) => {  
+  const bookingDetailsModel= await BookingDetailsModel.findOne({}).where({
+    bookingId: bookingId,
+  });
+  const paymentDetailsModel= await PaymentDetailsModel.findOne({}).where({
+    bookingId: bookingId,
+  });
 
-
+      console.log("obj id here",bookingId,"BookingDetailsModel",payload,"********",bookingDetailsModel)
   
-  const { ObjectId } = require('mongoose');
+  if (bookingDetailsModel ) {
 
-  const id = payload.bookingId // string ID from request body
-  const objId = ObjectId(id); // convert string ID to ObjectId
-  
-  BookingDetailsModel.findById(objId)
-    .then((booking) => {
-      console.log("obj id here")
-      // Do something with the booking object
-    })
-
-    .catch((error) => {
-      // Handle errors
-    });
-
-  // bookingId= payload.bookingId;
-  // let resData = await BookingDetailsModel.findById({ bookingId: bookingId });
-  // console.log("check 1 ",resData,"*****",payload);
-
-  // resData = JSON.parse(JSON.stringify(resData));
-  // console.log("check",resData,"*****",payload)
-  // if (resData && resData.length > 0) {
-  //   resData = await BookingDetailsModel.updateOne({
-  //     bookingStatus: bookingStatus,
-  //     // checkOutDate: payload.checkOutDate,
-  //     paymentAmount: payload.paymentAmount,
-  //     checkOutDate: payload.checkOutDate,
-  //     noOfDays: payload.nod,
-  //   }).where({ bookingId: bookingId });
-  //   if (resData) {
-  //     return { status: 200, response: "Booking details updated successfully" };
-  //   }
-  //   return { status: 500, response: "Booking details update failed" };
-  // }
-  // throw new Error("Booking update details not available");
-
-
-
+    if (payload["nod"]) {
+      // console.log("------",payload.nod);
+    // let days=payload.noOfDays+
+      await BookingDetailsModel.updateOne({ noOfDays: parseInt(payload.nod)+parseInt(bookingDetailsModel.noOfDays) }).where({
+        bookingId: bookingId,
+      });
+      await BookingDetailsModel.updateOne({ checkOutDate: new Date(payload.checkOutDate) }).where({
+        bookingId: bookingId,
+      });
+      
+      await PaymentDetailsModel.updateOne({ paymentAmount: parseInt(payload.paymentAmount)+parseInt(paymentDetailsModel.paymentAmount) }).where({
+        bookingId: bookingId,
+      });
+      
+      
+    }
+   
+  }
 };
-
-
-  
-//   console.log("payload in first",payload);
-//   const ObjectId = mongoose.Types.ObjectId;
-//   // const booking = { bookingId: mongoose.Types.ObjectId(payload.bookingId) };
-//   // const bookingId = new ObjectId(payload.bookingId);
-//   const bookingId =new ObjectId(payload.bookingId);
-//   let resData = await BookingDetailsModel.find({ bookingId: bookingId });
-//   resData = JSON.parse(JSON.stringify(resData));
-//   console.log("result",resData);
-  
-
-//   if (resData && resData.length > 0) {
-//     resData = await BookingDetailsModel.updateOne({
-//       // paymentAmount: payload.paymentAmount,
-//       checkOutDate: payload.checkOutDate,
-//       noOfDays: payload.nod,
-//     }).where({ bookingId: bookingId });
-//     if (resData) {
-//       return { status: 200, response: "Booking details updated successfully1111",bookingId };
-//     }
-//     return { status: 500, response: "Booking details update failed" };
-//   }
-//   throw new Error("Booking update details not available");
-// };
 
 const UpdateBookingStatus = async (updatedStatus, bookingId, checkOutDate) => {
   let resData = null;

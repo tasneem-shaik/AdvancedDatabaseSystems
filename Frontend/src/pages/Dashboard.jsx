@@ -46,9 +46,9 @@ const Dashboard = () => {
   const [totalAmount, setTotalAmount] = useState(0);
   const [paymentMode, setPaymentMode] = useState("");
   const [customerName, setCustomerName] = useState("");
-  const [CardNumber, setCardNumber] = useState("");
-  const [CVV, setCVV] = useState("");
-  const [ExpiryDate, setExpiryDate] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [cVV, setCVV] = useState("");
+  const [expiryDate, setExpiryDate] = useState("");
   const [customerAddress, setCustomerAddress] = useState("");
   const [customerIdentity, setCustomerIdentity] = useState("");
 
@@ -83,7 +83,7 @@ const Dashboard = () => {
 
 
       // axios
-      // .get(`http://localhost:3001/booking/details?pageNo=${1}`)
+      // .get(`http://localhost:3001/booking/detailsardnumber=${1}`)
       // .then((res) => {
       //   if (res && res.data.status === 200 && res.data.response.length > 0) {          
       //     console.log("response in 88", res.data.response);
@@ -239,9 +239,9 @@ const Dashboard = () => {
       noOfDays: bookedDays,
       checkInDate,
       checkOutDate,
-      ExpiryDate: ExpiryDate,
-      CardNumber: CardNumber,
-      CVV: CVV,
+      expiryDate: expiryDate?"expiryDate":"0",
+      cardNumber: cardNumber?cardNumber:"0",
+      cVV: cVV?cVV:"0",
       paymentType: paymentMode,
       paymentAmount: totalAmount,
       status: "Booked",

@@ -233,7 +233,7 @@ const BookingDetails = () => {
 
   return (
     <div style={{ background: "#242526", height: "100vh" }}>
-      <div className='dashboardNavBar'>
+      <div className="dashboardNavBar">
         <div
           style={{
             display: "flex",
@@ -246,38 +246,40 @@ const BookingDetails = () => {
           </h1>
         </div>
 
-        <Button className='logout-button' onClick={() => handleLogout()}>
+        <Button className="logout-button" onClick={() => handleLogout()}>
           LOGOUT
         </Button>
       </div>
-      <div className='dashboardMainSection'>
-        <div className='menuBar'>
+      <div className="dashboardMainSection">
+        <div className="menuBar">
           <ul style={{ listStyle: "none", marginLeft: "-2em" }}>
             <li onClick={() => navigate("/")}>Dashboard</li>
             <li onClick={() => navigate("/bookings")}>Bookings</li>
           </ul>
         </div>
-        <div className='containerSection'>
-          
+        <div className="containerSection">
           {/* <div className= 'search'>Enter</div> */}
           <TableContainer component={Paper} sx={{ margin: "0.8rem" }}>
-            <Table sx={{ minWidth: 650 }} aria-label='simple table'>
+            <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
+                  <TableCell sx={{ width: 50, fontWeight: "bold" }}>
+                    S.no
+                  </TableCell>
                   <TableCell sx={{ width: 50, fontWeight: "bold" }}>
                     Booking ID
                   </TableCell>
                   <TableCell>Cust Name</TableCell>
                   <TableCell>Cust Address</TableCell>
                   <TableCell>Cust Identity</TableCell>
-                  <TableCell align='center'>Beds Booked</TableCell>
-                  <TableCell align='center'>Days Booked</TableCell>
-                  <TableCell align='center'>Check In Date</TableCell>
-                  <TableCell align='center'>Check Out Date</TableCell>
-                  <TableCell align='center'>Payment Type</TableCell>
-                  <TableCell align='center'>Bill Amount</TableCell>
-                  <TableCell align='center'>Status</TableCell>
-                  <TableCell align='center'>Actions</TableCell>
+                  <TableCell align="center">Beds Booked</TableCell>
+                  <TableCell align="center">Days Booked</TableCell>
+                  <TableCell align="center">Check In Date</TableCell>
+                  <TableCell align="center">Check Out Date</TableCell>
+                  <TableCell align="center">Payment Type</TableCell>
+                  <TableCell align="center">Bill Amount</TableCell>
+                  <TableCell align="center">Status</TableCell>
+                  <TableCell align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -286,29 +288,33 @@ const BookingDetails = () => {
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell component='th' scope='row'>
+                    {" "}
+                    <TableCell component="th" scope="row">
                       {row.sNo}
                     </TableCell>
-                    <TableCell align='left'>{row.customerName}</TableCell>
-                    <TableCell align='left'>{row.customerAddress}</TableCell>
-                    <TableCell align='left'>{row.customerIdentity}</TableCell>
-                    <TableCell align='center'>{row.noOfBeds}</TableCell>
-                    <TableCell align='center'>{row.noOfDays}</TableCell>
-                    <TableCell align='center'>
+                    <TableCell component="th" scope="row">
+                      {row.bookingId}
+                    </TableCell>
+                    <TableCell align="left">{row.customerName}</TableCell>
+                    <TableCell align="left">{row.customerAddress}</TableCell>
+                    <TableCell align="left">{row.customerIdentity}</TableCell>
+                    <TableCell align="center">{row.noOfBeds}</TableCell>
+                    <TableCell align="center">{row.noOfDays}</TableCell>
+                    <TableCell align="center">
                       {dayjs(row.checkInDate).format("DD-MM-YYYY")}
                     </TableCell>
-                    <TableCell align='center'>
+                    <TableCell align="center">
                       {" "}
                       {dayjs(row.checkOutDate).format("DD-MM-YYYY")}
                     </TableCell>
-                    <TableCell align='center'>{row.paymentType}</TableCell>
-                    <TableCell align='center'>{`$ ${row.paymentAmount}`}</TableCell>
-                    <TableCell align='center'>{row.status}</TableCell>
+                    <TableCell align="center">{row.paymentType}</TableCell>
+                    <TableCell align="center">{`$ ${row.paymentAmount}`}</TableCell>
+                    <TableCell align="center">{row.status}</TableCell>
                     {row.status !== "Cancelled" &&
                       row.status !== "Checked Out" && (
-                        <TableCell align='center'>
+                        <TableCell align="center">
                           <Button
-                            variant='contained'
+                            variant="contained"
                             onClick={() =>
                               handleCheckoutClick(
                                 row.bookingId,
@@ -322,11 +328,11 @@ const BookingDetails = () => {
                         </TableCell>
                       )}
                     {row.status && row.status === "Booked" && (
-                      <TableCell align='center'>
+                      <TableCell align="center">
                         {
                           <Button
-                            variant='outlined'
-                            color='error'
+                            variant="outlined"
+                            color="error"
                             onClick={() => cancelBooking(row.bookingId)}
                             style={{ marginLeft: "1rem" }}
                           >
@@ -343,7 +349,7 @@ const BookingDetails = () => {
 
           <TablePagination
             rowsPerPageOptions={[10]}
-            component='div'
+            component="div"
             count={totalData}
             rowsPerPage={10}
             page={pageNo}
@@ -356,8 +362,8 @@ const BookingDetails = () => {
       <Modal
         open={isModalOpen}
         onClose={handleClose}
-        aria-labelledby='modal-modal-title'
-        aria-describedby='modal-modal-description'
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <div>
@@ -374,14 +380,14 @@ const BookingDetails = () => {
               <h3>Please select the Checkout date</h3>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-                  label='Check Out Date'
+                  label="Check Out Date"
                   value={checkoutDate}
-                  inputFormat='DD/MM/YYYY'
+                  inputFormat="DD/MM/YYYY"
                   onChange={(newValue) => setCheckOutDate(newValue)}
                   renderInput={(params) => <TextField required {...params} />}
                 />
               </LocalizationProvider>
-              <Button variant='contained' onClick={() => doCheckOut()}>
+              <Button variant="contained" onClick={() => doCheckOut()}>
                 Check-Out
               </Button>
             </div>

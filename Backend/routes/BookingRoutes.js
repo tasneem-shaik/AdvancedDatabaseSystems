@@ -41,8 +41,9 @@ router.post("/extend", async (req, res) => {
   try {
     if (req) {
       const data = req.body;
-      const payload = { ...data};
-      const saveRes = await BookingDetailsService.UpdateCheckout(payload);
+      // const payload = { ...data,};
+      
+      const saveRes = await BookingDetailsService.UpdateCheckout(data.payload,data.bookingId);
       return res.json(saveRes);
     }
     return res.status(400).send(`Something went wrong: ${e}`);

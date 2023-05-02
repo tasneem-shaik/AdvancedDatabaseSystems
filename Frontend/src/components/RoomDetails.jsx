@@ -22,7 +22,9 @@ const RoomDetails = ({
   const [isModalEOpen, setIsModalEOpen] = useState(false);
   const [roomPrice, setRoomPrice] = useState(0);
   const [searchName, setSearchName] = useState(0);
+  const [custName, setcustName] = useState("");
   const [nod, setNod] = useState(0);
+  const [unitprice, setunitPriceNod] = useState(0);
   const [bedsCount, setBedsCount] = useState(0);
   const [selectedRoomId, setSelectedRoomId] = useState(null);
   const [openSnackBar, setOpenSnackBar] = useState(false);
@@ -32,15 +34,30 @@ const RoomDetails = ({
   const handleClose = () => {
     setIsModalOpen(false);
     setIsModalEOpen(false);
+    setcustName("");
   };
 
   const handleUpdateDetails = (roomId) => {
     setSelectedRoomId(roomId);
     setIsModalOpen(true);
   };
-  const handleExtend = (roomId) => {
+  const handleSearchName = (val) => {
+    const bookingObj = response.find(
+      (obj) => obj.bookingId === val
+    );
+
+    if (bookingObj) {
+      setcustName(bookingObj.customerName);}
+      else{
+        setSnackBarMessage("No Booking id found");
+        setOpenSnackBar(true);
+      }
+
+  }
+  const handleExtend = (roomId, price) => {
     setSelectedRoomId(roomId);
     setIsModalEOpen(true);
+    setunitPriceNod(price);
     axios
       .get(`http://localhost:3001/booking/details?pageNo=${1}`)
       .then((res) => {
@@ -78,49 +95,49 @@ const RoomDetails = ({
     let bookingId;
     if (searchName) {
       console.log("hello sname", response);
-      // const matchingString = ;
       const bookingObj = response.find(
-        (obj) => obj.customerName === searchName
+        (obj) => obj.bookingId === searchName
       );
 
       if (bookingObj) {
         const checkoutDate = bookingObj.checkOutDate;
-        bookingId= bookingObj.bookingId;
+        setcustName(bookingObj.customerName);
+        bookingId = bookingObj.bookingId;
         console.log(checkoutDate); // "2023-05-18T05:00:00.000Z"
         const startDate = new Date(checkoutDate);
         startDate.setUTCDate(startDate.getUTCDate() + parseInt(nod));
-        const newDate = startDate.toISOString();
+        newDate = startDate;
         console.log(newDate);
-        // const newDate = new Date(checkoutDate.setDate(checkoutDate.getDate() + 1));
         console.log("new date", newDate); // "2023-05-18T05:00:00.000Z"
       } else {
-        // console.log("Booking not found for customer name:", searchName);
         setSnackBarMessage("Booking not found for customer name");
       }
       const payload = {
-       
         customerName: searchName,
         nod: nod,
-        bookingId:bookingId,
+        bookingId: bookingId,
         checkOutDate: newDate,
-        paymentAmount: nod*50,
+        paymentAmount: unitprice * nod,
         status: "Booked",
       };
       axios
         .post("http://localhost:3001/booking/extend", {
-        payload
+          payload,
+          bookingId,
         })
         .then((res) => {
-          if (res && res.data) {
-            console.log("got response for extend");
+          if (res) {
+            setcustName("");
             setSnackBarMessage("Details updated Successfully");
             setOpenSnackBar(true);
-            setIsModalOpen(false);
-            // fetchAllDetails();
+            setIsModalEOpen(false);
+            handleClose();
           }
         });
     } else {
-      setSnackBarMessage("Enter the search name");
+      setcustName("");
+      setIsModalEOpen(false);
+      setSnackBarMessage("No Booking ID found");
       setOpenSnackBar(true);
     }
   };
@@ -264,7 +281,7 @@ const RoomDetails = ({
             variant="contained"
             disabled={bedsAvailable <= 0}
             onClick={() => {
-              handleExtend(roomId);
+              handleExtend(roomId, price);
               // resetData();
             }}
           >
@@ -302,21 +319,41 @@ const RoomDetails = ({
         <Box sx={style}>
           <h3>Extending Stay </h3>
           <div style={{ display: "flex", columnGap: "12px" }}>
-            <h4>Customer Name</h4>
+            <h4>Booking Id</h4>
             <TextField
               id="sName"
-              label="search Name"
+              label="search string"
               variant="outlined"
-              onChange={(e) => setSearchName(e.target.value)}
+              onBlur={(e) => {handleSearchName(e.target.value)}}
+              // onClick={() => {
+              //   handleExtend(roomId, price);
+              //   // resetData();
+              // }}
               style={{ maxWidth: "300px" }}
             />
             <TextField
               id="nod"
               label="No of days"
               variant="outlined"
-              onChange={(e) => setNod(e.target.value)}
+              // onChange={(e) => setNod(e.target.value)}
+              onChange={(e) => {
+                const value = parseInt(e.target.value);
+                if (value > 0) {
+                  setNod(value);
+                } else {
+                  setNod("0");
+                }
+              }}
               style={{ maxWidth: "300px" }}
             />
+          </div>
+          <div>
+            <h3>Customer name</h3>
+            <p>{` ${custName}`}</p>
+          </div>
+          <div>
+            <h3>Extra Payable</h3>
+            <p>{`$ ${unitprice * nod}`}</p>
           </div>
           <div
             style={{
