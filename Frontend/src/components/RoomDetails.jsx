@@ -42,18 +42,16 @@ const RoomDetails = ({
     setIsModalOpen(true);
   };
   const handleSearchName = (val) => {
-    const bookingObj = response.find(
-      (obj) => obj.bookingId === val
-    );
+    setSearchName(val);
+    const bookingObj = response.find((obj) => obj.bookingId === val);
 
     if (bookingObj) {
-      setcustName(bookingObj.customerName);}
-      else{
-        setSnackBarMessage("No Booking id found");
-        setOpenSnackBar(true);
-      }
-
-  }
+      setcustName(bookingObj.customerName);
+    } else {
+      setSnackBarMessage("No Booking id found");
+      setOpenSnackBar(true);
+    }
+  };
   const handleExtend = (roomId, price) => {
     setSelectedRoomId(roomId);
     setIsModalEOpen(true);
@@ -93,11 +91,10 @@ const RoomDetails = ({
   const searchDetails = () => {
     var newDate;
     let bookingId;
+    console.log("+++++++",searchName);
     if (searchName) {
       console.log("hello sname", response);
-      const bookingObj = response.find(
-        (obj) => obj.bookingId === searchName
-      );
+      const bookingObj = response.find((obj) => obj.bookingId === searchName);
 
       if (bookingObj) {
         const checkoutDate = bookingObj.checkOutDate;
@@ -324,7 +321,9 @@ const RoomDetails = ({
               id="sName"
               label="search string"
               variant="outlined"
-              onBlur={(e) => {handleSearchName(e.target.value)}}
+              onBlur={(e) => {
+                handleSearchName(e.target.value);
+              }}
               // onClick={() => {
               //   handleExtend(roomId, price);
               //   // resetData();
