@@ -35,6 +35,22 @@ router.get("/details", async (req, res) => {
   }
 });
 
+//extend
+// Insert booking details
+router.post("/extend", async (req, res) => {
+  try {
+    if (req) {
+      const data = req.body;
+      const payload = { ...data};
+      const saveRes = await BookingDetailsService.UpdateCheckout(payload);
+      return res.json(saveRes);
+    }
+    return res.status(400).send(`Something went wrong: ${e}`);
+  } catch (e) {
+    return res.status(500).send(`Something went wrong: ${e}`);
+  }
+});
+
 // Checkout
 router.post("/room/checkout", async (req, res) => {
   try {

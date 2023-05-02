@@ -1,8 +1,11 @@
 var ObjectID = require("mongodb").ObjectId;
+const mongoose = require("mongoose");
+
 const { BookingDetailsModel } = require("../models/BookingDetails");
 const { CustomerDetailsModel } = require("../models/CustomerDetails");
 const { PaymentDetailsModel } = require("../models/PaymentDetails");
 const { RoomDetailsModel } = require("../models/RoomDetails");
+const { ObjectId } = require("mongodb");
 
 const InsertBookingDetails = async (payload) => {
   if (payload) {
@@ -133,6 +136,77 @@ const UpdateBookingDetails = async (bookingId, bookingStatus, checkOutDate) => {
   throw new Error("Booking update details not available");
 };
 
+//extend
+const UpdateCheckout = async (payload) => {
+
+
+  
+  const { ObjectId } = require('mongoose');
+
+  const id = payload.bookingId // string ID from request body
+  const objId = ObjectId(id); // convert string ID to ObjectId
+  
+  BookingDetailsModel.findById(objId)
+    .then((booking) => {
+      console.log("obj id here")
+      // Do something with the booking object
+    })
+
+    .catch((error) => {
+      // Handle errors
+    });
+
+  // bookingId= payload.bookingId;
+  // let resData = await BookingDetailsModel.findById({ bookingId: bookingId });
+  // console.log("check 1 ",resData,"*****",payload);
+
+  // resData = JSON.parse(JSON.stringify(resData));
+  // console.log("check",resData,"*****",payload)
+  // if (resData && resData.length > 0) {
+  //   resData = await BookingDetailsModel.updateOne({
+  //     bookingStatus: bookingStatus,
+  //     // checkOutDate: payload.checkOutDate,
+  //     paymentAmount: payload.paymentAmount,
+  //     checkOutDate: payload.checkOutDate,
+  //     noOfDays: payload.nod,
+  //   }).where({ bookingId: bookingId });
+  //   if (resData) {
+  //     return { status: 200, response: "Booking details updated successfully" };
+  //   }
+  //   return { status: 500, response: "Booking details update failed" };
+  // }
+  // throw new Error("Booking update details not available");
+
+
+
+};
+
+
+  
+//   console.log("payload in first",payload);
+//   const ObjectId = mongoose.Types.ObjectId;
+//   // const booking = { bookingId: mongoose.Types.ObjectId(payload.bookingId) };
+//   // const bookingId = new ObjectId(payload.bookingId);
+//   const bookingId =new ObjectId(payload.bookingId);
+//   let resData = await BookingDetailsModel.find({ bookingId: bookingId });
+//   resData = JSON.parse(JSON.stringify(resData));
+//   console.log("result",resData);
+  
+
+//   if (resData && resData.length > 0) {
+//     resData = await BookingDetailsModel.updateOne({
+//       // paymentAmount: payload.paymentAmount,
+//       checkOutDate: payload.checkOutDate,
+//       noOfDays: payload.nod,
+//     }).where({ bookingId: bookingId });
+//     if (resData) {
+//       return { status: 200, response: "Booking details updated successfully1111",bookingId };
+//     }
+//     return { status: 500, response: "Booking details update failed" };
+//   }
+//   throw new Error("Booking update details not available");
+// };
+
 const UpdateBookingStatus = async (updatedStatus, bookingId, checkOutDate) => {
   let resData = null;
   if (checkOutDate) {
@@ -170,5 +244,6 @@ module.exports = {
   InsertBookingDetails,
   FetchAllBookingDetails,
   UpdateBookingDetails,
+  UpdateCheckout,
   UpdateBookingStatus,
 };

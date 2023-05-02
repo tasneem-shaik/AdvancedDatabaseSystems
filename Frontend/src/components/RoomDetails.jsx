@@ -74,14 +74,18 @@ const RoomDetails = ({
     }
   };
   const searchDetails = () => {
+    var newDate;
+    let bookingId;
     if (searchName) {
       console.log("hello sname", response);
       // const matchingString = ;
       const bookingObj = response.find(
         (obj) => obj.customerName === searchName
       );
+
       if (bookingObj) {
         const checkoutDate = bookingObj.checkOutDate;
+        bookingId= bookingObj.bookingId;
         console.log(checkoutDate); // "2023-05-18T05:00:00.000Z"
         const startDate = new Date(checkoutDate);
         startDate.setUTCDate(startDate.getUTCDate() + parseInt(nod));
@@ -93,22 +97,29 @@ const RoomDetails = ({
         // console.log("Booking not found for customer name:", searchName);
         setSnackBarMessage("Booking not found for customer name");
       }
-
-      //     axios
-      //       .post("http://localhost:3001/rooms/update/extend", {
-      //         searchName,
-      //         nod,
-      //       })
-      //       .then((res) => {
-      //         if (res && res.data) {
-      //           // console.log("got response");
-      //           setSnackBarMessage("Details updated Successfully");
-      //           setOpenSnackBar(true);
-      //           setIsModalOpen(false);
-      //           // fetchAllDetails();
-      //         }
-      //       });
-      //   } else {
+      const payload = {
+       
+        customerName: searchName,
+        nod: nod,
+        bookingId:bookingId,
+        checkOutDate: newDate,
+        paymentAmount: nod*50,
+        status: "Booked",
+      };
+      axios
+        .post("http://localhost:3001/booking/extend", {
+        payload
+        })
+        .then((res) => {
+          if (res && res.data) {
+            console.log("got response for extend");
+            setSnackBarMessage("Details updated Successfully");
+            setOpenSnackBar(true);
+            setIsModalOpen(false);
+            // fetchAllDetails();
+          }
+        });
+    } else {
       setSnackBarMessage("Enter the search name");
       setOpenSnackBar(true);
     }
