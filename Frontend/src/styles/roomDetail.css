@@ -1,0 +1,79 @@
+.detailsContainer {
+    background-color: white;
+    margin: 1rem;
+    padding: 1rem;
+    border-radius: 15px;
+    display: grid;
+    grid-template-columns: 20% 50% 30%;
+}
+
+.roomNameClass>p {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.roomDescriptionClass {
+    display: grid;
+    grid-template-columns: 25% 25% 25%;
+    min-width: 55rem !important;
+    margin-left: 2rem !important;
+}
+
+.descContainer {
+    display: grid;
+    grid-template-columns: 30% 70%;
+    border: 2px solid black;
+    border-radius: 15px;
+    margin-right: 2px;
+}
+
+.iconClass {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.iconbase {
+    font-size: 50px !important;
+    color: lightseagreen;
+}
+
+.valueClass {
+    margin-top: -0.8rem;
+    font-size: larger;
+    font-weight: 700;
+}
+
+.amenitiesClass {
+    display: grid;
+    grid-template-columns: 40% 40%;
+}
+
+.amenitiesDetails {
+    font-size: medium;
+    font-weight: 600;
+}
+
+.paymentClass {
+    display: flex;
+    float: initial;
+    height: 3rem;
+}
+
+.paymentClass>p {
+    font-size: 25px;
+    font-weight: 600;
+    margin-left: 10px;
+}
+
+.availableClass {
+    display: flex;
+    float: initial;
+    height: 3rem;
+}
+
+.availableClass>p {
+    font-size: 25px;
+    font-weight: 600;
+    margin-left: 10px;
+}

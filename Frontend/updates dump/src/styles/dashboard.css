@@ -1,0 +1,61 @@
+.dashboardNavBar {
+    height: 6rem;
+    background-color: aliceblue;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    display: grid;
+    grid-template-columns: 90% 10%;
+    align-items: center;
+    justify-content: center;
+}
+
+.dashboardMainSection {
+    display: grid;
+    grid-template-columns: 14rem auto;
+    height: 90vh;
+    overflow: auto;
+}
+
+.menuBar {
+    /* background-color: burlywood; */
+    width: auto;
+    border-right: 1px solid white;
+}
+
+/* Menu list hover */
+.menuBar>ul>li:hover {
+    cursor: pointer;
+}
+
+.menuBar>ul>li {
+    padding: 0.8rem;
+    background-color: lightblue;
+    /* width: 100%; */
+    display: flex;
+    justify-self: center;
+    margin-bottom: 1rem;
+    border-radius: 15px;
+    margin-left: 10px;
+    margin-right: 1rem;
+    font-size: larger;
+    font-weight: 700;
+}
+
+.checkOutDatePicker {
+    margin-left: 1rem !important;
+    height: 1rem !important;
+}
+
+.logout-button {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: lightcoral !important;
+    width: 100px !important;
+    height: 50px !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    color: black !important;
+    border-radius: 10px !important;
+    margin-top: 10px;
+}
