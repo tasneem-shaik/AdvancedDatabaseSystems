@@ -242,7 +242,7 @@ const BookingDetails = () => {
           }}
         >
           <h1 style={{ fontStyle: "italic", marginLeft: "60px" }}>
-            WELCOME TO HOME STAY HOSTEL
+            WELCOME TO HOMESTAY HOSTEL
           </h1>
         </div>
 

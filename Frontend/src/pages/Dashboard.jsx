@@ -308,7 +308,7 @@ const Dashboard = () => {
           }}
         >
           <h1 style={{ fontStyle: "italic", marginLeft: "60px" }}>
-            WELCOME TO GRAND BAY RESORT HOTEL
+            WELCOME TO HOMESTAY HOSTEL
           </h1>
         </div>
 
